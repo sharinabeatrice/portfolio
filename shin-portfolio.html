@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shin — Freelance Professional</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f2ec;
+    --cream: #ede9e0;
+    --accent: #c8522a;
+    --accent-light: #f0d5cb;
+    --muted: #7a7265;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.25rem 3rem;
+    background: var(--paper);
+    border-bottom: 1px solid rgba(15,15,15,0.08);
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 3rem 5rem 3rem;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.1s forwards;
+  }
+  .hero-name {
+    font-family: var(--serif);
+    font-size: clamp(4rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 420px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.35s forwards;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.9rem 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, gap 0.2s;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.45s forwards;
+    width: fit-content;
+  }
+  .hero-cta:hover { background: var(--accent); gap: 1.25rem; }
+  .hero-cta .arrow { font-size: 1rem; }
+
+  .hero-right {
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .hero-graphic {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-circle-bg {
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,82,42,0.2);
+    position: absolute;
+    animation: rotate 20s linear infinite;
+  }
+  .hero-circle-bg.inner {
+    width: 280px; height: 280px;
+    border-color: rgba(200,82,42,0.15);
+    animation-direction: reverse;
+    animation-duration: 14s;
+  }
+  .hero-tags {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tag-orbit {
+    position: absolute;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    background: var(--paper);
+    border: 1px solid rgba(15,15,15,0.1);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .tag-orbit.accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .t1 { top: 18%; left: 8%; }
+  .t2 { top: 38%; right: 5%; }
+  .t3 { bottom: 28%; left: 12%; }
+  .t4 { top: 60%; right: 12%; }
+  .t5 { top: 10%; right: 20%; }
+  .t6 { bottom: 18%; right: 25%; }
+  .hero-initials {
+    font-family: var(--serif);
+    font-size: 11rem;
+    line-height: 1;
+    color: rgba(15,15,15,0.06);
+    letter-spacing: -0.05em;
+    z-index: 0;
+    user-select: none;
+  }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    overflow: hidden;
+    border-top: 1px solid rgba(15,15,15,0.1);
+    border-bottom: 1px solid rgba(15,15,15,0.1);
+    padding: 0.85rem 0;
+    background: var(--ink);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 22s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--paper);
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+  .marquee-dot { color: var(--accent); opacity: 1; }
+
+  /* SERVICES */
+  #services {
+    padding: 7rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 4rem;
+    max-width: 500px;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: rgba(15,15,15,0.1);
+    border: 1.5px solid rgba(15,15,15,0.1);
+  }
+  .service-card {
+    background: var(--paper);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .service-card:hover { background: var(--cream); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-num {
+    font-family: var(--serif);
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    opacity: 0.6;
+  }
+  .service-name {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+  .service-desc {
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.5rem; }
+  .stag {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid rgba(15,15,15,0.15);
+    color: var(--muted);
+  }
+
+  /* ABOUT */
+  #about {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 7rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-label { color: var(--accent); }
+  .about-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+  .about-body {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: rgba(245,242,236,0.7);
+    margin-bottom: 1.25rem;
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.03em;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.45);
+    margin-top: 0.35rem;
+  }
+
+  /* SKILLS */
+  #skills {
+    padding: 7rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .skills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid rgba(15,15,15,0.1);
+    margin-top: 3rem;
+  }
+  .skill-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(15,15,15,0.1);
+    gap: 2rem;
+    transition: padding-left 0.2s;
+    cursor: default;
+  }
+  .skill-row:hover { padding-left: 0.75rem; }
+  .skill-row:hover .skill-name { color: var(--accent); }
+  .skill-name {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    transition: color 0.2s;
+    min-width: 220px;
+  }
+  .skill-desc { font-size: 0.85rem; color: var(--muted); flex: 1; line-height: 1.6; }
+  .skill-level {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.8rem;
+    background: var(--accent-light);
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* PROJECTS */
+  #projects {
+    background: var(--cream);
+    padding: 7rem 3rem;
+  }
+  .projects-inner { max-width: 1200px; margin: 0 auto; }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .project-card {
+    background: var(--paper);
+    border: 1px solid rgba(15,15,15,0.08);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .project-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(15,15,15,0.08); }
+  .project-type {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+  .project-title {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .project-desc {
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .project-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .ptool {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    background: var(--cream);
+    color: var(--muted);
+    border: 1px solid rgba(15,15,15,0.12);
+  }
+  .project-card.featured {
+    grid-column: span 2;
+    background: var(--ink);
+    color: var(--paper);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .project-card.featured .project-type { color: var(--accent); }
+  .project-card.featured .project-desc { color: rgba(245,242,236,0.65); }
+  .project-card.featured .ptool { background: rgba(255,255,255,0.07); color: rgba(245,242,236,0.6); border-color: rgba(255,255,255,0.12); }
+  .featured-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    position: relative;
+  }
+  .featured-bg-text {
+    font-family: var(--serif);
+    font-size: 8rem;
+    color: rgba(255,255,255,0.04);
+    letter-spacing: -0.05em;
+    position: absolute;
+    user-select: none;
+  }
+  .featured-badge {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.25rem;
+    z-index: 1;
+  }
+
+  /* CONTACT */
+  #contact {
+    padding: 7rem 3rem;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .contact-title {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+  }
+  .contact-title em { font-style: italic; color: var(--accent); }
+  .contact-sub {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 3rem;
+  }
+  .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+  .contact-link {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    padding: 0.85rem 2rem;
+    border: 1px solid rgba(15,15,15,0.2);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .contact-link:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .contact-link.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .contact-link.primary:hover { background: var(--ink); border-color: var(--ink); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(15,15,15,0.1);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { height: 50vw; }
+    .hero-left { padding: 3rem 1.5rem; }
+    #services, #skills, #projects .projects-inner, #contact { padding: 4rem 1.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    #about { grid-template-columns: 1fr; padding: 4rem 1.5rem; gap: 2rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+    .featured-visual { display: none; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Shin</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Freelance Professional · Available Now</p>
+    <h1 class="hero-name">I'm<br><em>Shin.</em></h1>
+    <p class="hero-desc">Virtual & executive assistant, curriculum designer, and systems thinker — helping busy people and organizations move faster, work smarter, and stay organized.</p>
+    <a href="#contact" class="hero-cta">Let's work together <span class="arrow">→</span></a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-graphic">
+      <div class="hero-initials">S</div>
+      <div class="hero-circle-bg"></div>
+      <div class="hero-circle-bg inner"></div>
+      <div class="hero-tags">
+        <span class="tag-orbit t1 accent">VA / EA</span>
+        <span class="tag-orbit t2">Curriculum Design</span>
+        <span class="tag-orbit t3">Project Management</span>
+        <span class="tag-orbit t4 accent">Automation</span>
+        <span class="tag-orbit t5">Graphic Design</span>
+        <span class="tag-orbit t6">Make · Canva</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Virtual Assistant</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Executive Support</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Curriculum Design</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Project Management</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Workflow Automation</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Graphic Design</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Systems & Processes</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Virtual Assistant</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Executive Support</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Curriculum Design</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Project Management</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Workflow Automation</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Graphic Design</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Systems & Processes</span><span class="marquee-dot">✦</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <p class="section-label">What I do</p>
+  <h2 class="section-title">Services built around your workflow.</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <p class="service-num">01</p>
+      <h3 class="service-name">Virtual & Executive Assistance</h3>
+      <p class="service-desc">From inbox management to calendar coordination and travel logistics — I keep your operations running smoothly so you can focus on the big picture.</p>
+      <div class="service-tags">
+        <span class="stag">Scheduling</span>
+        <span class="stag">Email Management</span>
+        <span class="stag">Research</span>
+        <span class="stag">Admin</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <p class="service-num">02</p>
+      <h3 class="service-name">Curriculum & Instructional Design</h3>
+      <p class="service-desc">Years of classroom experience translated into structured, engaging learning materials — lesson plans, modules, worksheets, and training content.</p>
+      <div class="service-tags">
+        <span class="stag">Lesson Plans</span>
+        <span class="stag">eLearning</span>
+        <span class="stag">Training Docs</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <p class="service-num">03</p>
+      <h3 class="service-name">Project Management</h3>
+      <p class="service-desc">Keeping timelines, teams, and deliverables aligned. I track moving parts so nothing slips through the cracks.</p>
+      <div class="service-tags">
+        <span class="stag">Task Tracking</span>
+        <span class="stag">Documentation</span>
+        <span class="stag">Coordination</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <p class="service-num">04</p>
+      <h3 class="service-name">Workflow Automation</h3>
+      <p class="service-desc">Building no-code automations with Make to eliminate repetitive tasks, connect your tools, and save you hours every week.</p>
+      <div class="service-tags">
+        <span class="stag">Make</span>
+        <span class="stag">Zapier-style flows</span>
+        <span class="stag">System Design</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <p class="service-num">05</p>
+      <h3 class="service-name">Graphic Design</h3>
+      <p class="service-desc">Clean, purposeful visuals for social media, presentations, and branded materials. Designed to communicate, not just to look good.</p>
+      <div class="service-tags">
+        <span class="stag">Canva</span>
+        <span class="stag">Social Assets</span>
+        <span class="stag">Presentations</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <p class="service-num">06</p>
+      <h3 class="service-name">Systems & Processes</h3>
+      <p class="service-desc">Documenting SOPs, designing repeatable workflows, and building the internal infrastructure that helps teams scale without the chaos.</p>
+      <div class="service-tags">
+        <span class="stag">SOPs</span>
+        <span class="stag">Notion / Docs</span>
+        <span class="stag">Process Mapping</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <p class="section-label about-label">About me</p>
+    <h2 class="about-title">Teacher turned systems-obsessed freelancer.</h2>
+    <p class="about-body">I spent years as a Grade 3 teacher — designing curriculum, managing classrooms, and translating complex ideas into clear, structured experiences. That skillset translates directly into the freelance world: I'm organized, detail-oriented, and genuinely love building systems that work.</p>
+    <p class="about-body">Now I bring that same precision and care to virtual assistance, project management, and workflow automation — helping clients get more done with less friction.</p>
+    <div class="about-stats">
+      <div>
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Years in education</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Remote-ready</div>
+      </div>
+      <div>
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Tools mastered</div>
+      </div>
+      <div>
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Systems built with love</div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p class="section-label about-label">Philosophy</p>
+    <p class="about-body" style="font-family: 'DM Serif Display', serif; font-size: 1.6rem; line-height: 1.4; letter-spacing: -0.02em; color: rgba(245,242,236,0.9);">"The best systems are invisible — you only notice them when they're missing."</p>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Toolkit</p>
+  <h2 class="section-title">The tools of the trade.</h2>
+  <div class="skills-list">
+    <div class="skill-row">
+      <span class="skill-name">Make (Integromat)</span>
+      <span class="skill-desc">No-code automation — building multi-step workflows that connect apps and cut manual work</span>
+      <span class="skill-level">Learning</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-name">Canva</span>
+      <span class="skill-desc">Graphic design, presentations, social media assets, and branded materials</span>
+      <span class="skill-level">Proficient</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-name">Google Workspace</span>
+      <span class="skill-desc">Docs, Sheets, Slides, Drive, Gmail, Calendar — the full suite</span>
+      <span class="skill-level">Advanced</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-name">Notion / Docs</span>
+      <span class="skill-desc">Building knowledge bases, project trackers, SOPs, and team wikis</span>
+      <span class="skill-level">Proficient</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-name">Project Management</span>
+      <span class="skill-desc">Task tracking, timeline management, team coordination across multiple tools</span>
+      <span class="skill-level">Advanced</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-name">Curriculum Design</span>
+      <span class="skill-desc">Lesson plans, rubrics, learning modules, instructional scaffolding</span>
+      <span class="skill-level">Expert</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-inner">
+    <p class="section-label">Work</p>
+    <h2 class="section-title">Things I've built & done.</h2>
+    <div class="projects-grid">
+      <div class="project-card featured">
+        <div>
+          <p class="project-type">Automation · Featured Project</p>
+          <h3 class="project-title">Automated Workflow with Make</h3>
+          <p class="project-desc">Designed and built a multi-step automation using Make that connects multiple apps, eliminates manual data entry, and saves hours of repetitive work each week — no code required.</p>
+          <div class="project-tools">
+            <span class="ptool">Make</span>
+            <span class="ptool">No-code</span>
+            <span class="ptool">Workflow Design</span>
+            <span class="ptool">Systems Thinking</span>
+          </div>
+        </div>
+        <div class="featured-visual">
+          <span class="featured-bg-text">⚙</span>
+          <span class="featured-badge">Automation in action</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <p class="project-type">Curriculum Design</p>
+        <h3 class="project-title">Charlotte's Web Writing Unit</h3>
+        <p class="project-desc">Full Grade 3 writing unit with gallery walk, persuasive letter mini-lesson, group performance task, rubric, and student-facing planning materials.</p>
+        <div class="project-tools">
+          <span class="ptool">Lesson Planning</span>
+          <span class="ptool">Scaffolding</span>
+          <span class="ptool">Assessment Design</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <p class="project-type">Graphic Design · Education</p>
+        <h3 class="project-title">Classroom Visuals & Materials</h3>
+        <p class="project-desc">Designed student-facing worksheets, learning targets, and classroom resources — balancing visual clarity with instructional purpose.</p>
+        <div class="project-tools">
+          <span class="ptool">Canva</span>
+          <span class="ptool">Visual Design</span>
+          <span class="ptool">Print-ready</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Get in touch</p>
+  <h2 class="contact-title">Let's build something <em>great</em> together.</h2>
+  <p class="contact-sub">Open to freelance projects, retainer arrangements, and long-term collaborations. If you need someone organized, proactive, and genuinely excited about systems — that's me.</p>
+  <div class="contact-links">
+    <a href="mailto:hello@shin.com" class="contact-link primary">Send me an email</a>
+    <a href="#" class="contact-link">LinkedIn</a>
+    <a href="#" class="contact-link">Download CV</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Shin. All rights reserved.</span>
+  <span>Available for freelance · Based in the Philippines</span>
+</footer>
+
+</body>
+</html>
